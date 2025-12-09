@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 비교 템플릿</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .product-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .product-image {
+            flex: 0 0 300px;
+            text-align: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .color-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #ddd;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #4169E1;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .product-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .spec-label {
+            color: #666;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .scores-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .scores-grid {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .main-score {
+            position: relative;
+            width: 140px;
+            height: 140px;
+        }
+
+        .main-score svg {
+            transform: rotate(-90deg);
+        }
+
+        .main-score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .main-score-label {
+            font-size: 12px;
+            color: #666;
+            display: block;
+        }
+
+        .main-score-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .sub-scores {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 8px;
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .score-label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .score-sublabel {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .buttons-section {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: #4169E1;
+            color: white;
+            border: 2px solid #4169E1;
+        }
+
+        .btn-primary:hover {
+            background: #3558c7;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f5;
+        }
+
+        .store-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .store-link {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #eee;
+            transition: all 0.3s;
+        }
+
+        .store-link:hover {
+            border-color: #4169E1;
+            transform: translateY(-2px);
+        }
+
+        .store-link.coupang {
+            border-color: #ff4d4d;
+        }
+
+        .store-link.gmarket {
+            border-color: #00c73c;
+        }
+
+        .store-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .store-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff4d4d;
+        }
+
+        .detail-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .detail-link a {
+            color: #4169E1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .detail-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .product-header {
+                flex-direction: column;
+            }
+
+            .product-image {
+                flex: 1;
+                max-width: 100%;
+            }
+
+            .sub-scores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-specs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <!-- ========== 제품 1 시작 ========== -->
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-image">
+                    <!-- 👇 제품 이미지 URL 변경 -->
+                    <img src="https://via.placeholder.com/300x200?text=Product+Image" alt="제품 이미지">
+
+                    <!-- 👇 색상 옵션 (필요 없으면 삭제) -->
+                    <div class="color-options">
+                        <div class="color-dot" style="background: #FFD700;"></div>
+                        <div class="color-dot" style="background: #C0C0C0;"></div>
+                        <div class="color-dot" style="background: #E8E8E8;"></div>
+                        <div class="color-dot" style="background: #4A4A4A;"></div>
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <!-- 👇 배지 텍스트 변경 (베스트픽, 추천, 인기 등) -->
+                    <span class="badge">베스트픽</span>
+
+                    <!-- 👇 제품명 변경 -->
+                    <h2 class="product-title">APPLE 2025 맥북에어13 MW0W3KH/A M4 10Core - 8GPU - 16GB - 256GB</h2>
+
+                    <!-- 👇 가격 변경 -->
+                    <div class="product-price">143 ~ 172만원</div>
+
+                    <!-- 👇 스펙 정보 변경 -->
+                    <div class="product-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">화면 크기(inch)</span>
+                            <span class="spec-value">13.6</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">해상도</span>
+                            <span class="spec-value">2560X1664</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">CPU종류</span>
+                            <span class="spec-value">실리콘 M4</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">CPU 넘버</span>
+                            <span class="spec-value">M4 10 Core</span>
+                        </div>
+                    </div>
+
+                    <!-- 👇 VS 비교 버튼 (필요 없으면 삭제) -->
+                    <div class="buttons-section">
+                        <a href="#" class="btn btn-primary">VS 비교하기</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 점수 섹션 -->
+            <div class="scores-section">
+                <div class="scores-grid">
+                    <!-- 👇 종합점수 변경 (0~100) -->
+                    <div class="main-score">
+                        <svg width="140" height="140">
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+                            <!-- 👇 stroke-dasharray 계산: (점수/100) * 377 -->
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#10b981" stroke-width="12"
+                                    stroke-dasharray="283 377" stroke-linecap="round"/>
+                        </svg>
+                        <div class="main-score-text">
+                            <span class="main-score-label">종합점수</span>
+                            <span class="main-score-value">75.2</span>
+                        </div>
+                    </div>
+
+                    <!-- 👇 세부 점수들 변경 (각 점수와 색상) -->
+                    <div class="sub-scores">
+                        <!-- 가격 점수 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <!-- 👇 색상: 초록=#10b981, 주황=#f59e0b, 파랑=#3b82f6 -->
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#10b981" stroke-width="8"
+                                            stroke-dasharray="164 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #10b981;">74.7</div>
+                            </div>
+                            <div class="score-label">가격</div>
+                        </div>
+
+                        <!-- 처리성능 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#10b981" stroke-width="8"
+                                            stroke-dasharray="157 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #10b981;">71.3</div>
+                            </div>
+                            <div class="score-label">처리성능</div>
+                        </div>
+
+                        <!-- 화면크기 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#f59e0b" stroke-width="8"
+                                            stroke-dasharray="137 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #f59e0b;">62.3</div>
+                            </div>
+                            <div class="score-label">화면크기</div>
+                        </div>
+
+                        <!-- 디스플레이 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#10b981" stroke-width="8"
+                                            stroke-dasharray="160 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #10b981;">72.8</div>
+                            </div>
+                            <div class="score-label">디스플레이</div>
+                        </div>
+
+                        <!-- 저장공간 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#f59e0b" stroke-width="8"
+                                            stroke-dasharray="151 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #f59e0b;">68.7</div>
+                            </div>
+                            <div class="score-label">저장공간</div>
+                        </div>
+
+                        <!-- 휴대성 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#3b82f6" stroke-width="8"
+                                            stroke-dasharray="189 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #3b82f6;">85.8</div>
+                            </div>
+                            <div class="score-label">휴대성</div>
+                        </div>
+
+                        <!-- 사용성 -->
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#3b82f6" stroke-width="8"
+                                            stroke-dasharray="181 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #3b82f6;">82.1</div>
+                            </div>
+                            <div class="score-label">사용성</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 자세히 알아보기 링크 -->
+            <div class="detail-link">
+                <a href="#">자세히 알아보기 →</a>
+            </div>
+
+            <!-- 👇 구매 링크 변경 -->
+            <div class="store-links">
+                <a href="https://www.coupang.com" class="store-link coupang">
+                    <span class="store-name">🎁 쿠팡</span>
+                    <span class="store-price">1,430,980원</span>
+                </a>
+                <a href="https://www.gmarket.co.kr" class="store-link gmarket">
+                    <span class="store-name">Gmarket</span>
+                    <span class="store-price">1,445,300원</span>
+                </a>
+            </div>
+        </div>
+        <!-- ========== 제품 1 끝 ========== -->
+
+        <!-- ========== 제품 2 시작 (복사해서 사용) ========== -->
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x200?text=Product+2" alt="제품 이미지 2">
+                    <div class="color-options">
+                        <div class="color-dot" style="background: #000;"></div>
+                        <div class="color-dot" style="background: #FFF; border: 2px solid #ddd;"></div>
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <span class="badge" style="background: #10b981;">추천</span>
+                    <h2 class="product-title">제품명을 여기에 입력하세요</h2>
+                    <div class="product-price">99 ~ 120만원</div>
+
+                    <div class="product-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">화면 크기</span>
+                            <span class="spec-value">15.6인치</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">CPU</span>
+                            <span class="spec-value">Intel i7</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">RAM</span>
+                            <span class="spec-value">16GB</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">저장공간</span>
+                            <span class="spec-value">512GB SSD</span>
+                        </div>
+                    </div>
+
+                    <div class="buttons-section">
+                        <a href="#" class="btn btn-primary">VS 비교하기</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scores-section">
+                <div class="scores-grid">
+                    <div class="main-score">
+                        <svg width="140" height="140">
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#10b981" stroke-width="12"
+                                    stroke-dasharray="271 377" stroke-linecap="round"/>
+                        </svg>
+                        <div class="main-score-text">
+                            <span class="main-score-label">종합점수</span>
+                            <span class="main-score-value">72.0</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-scores">
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#10b981" stroke-width="8"
+                                            stroke-dasharray="176 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #10b981;">80.0</div>
+                            </div>
+                            <div class="score-label">가격</div>
+                        </div>
+
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#f59e0b" stroke-width="8"
+                                            stroke-dasharray="154 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #f59e0b;">70.0</div>
+                            </div>
+                            <div class="score-label">성능</div>
+                        </div>
+
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#3b82f6" stroke-width="8"
+                                            stroke-dasharray="165 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #3b82f6;">75.0</div>
+                            </div>
+                            <div class="score-label">디자인</div>
+                        </div>
+
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#10b981" stroke-width="8"
+                                            stroke-dasharray="143 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #10b981;">65.0</div>
+                            </div>
+                            <div class="score-label">휴대성</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-link">
+                <a href="#">자세히 알아보기 →</a>
+            </div>
+
+            <div class="store-links">
+                <a href="#" class="store-link coupang">
+                    <span class="store-name">🎁 쿠팡</span>
+                    <span class="store-price">990,000원</span>
+                </a>
+                <a href="#" class="store-link gmarket">
+                    <span class="store-name">Gmarket</span>
+                    <span class="store-price">1,050,000원</span>
+                </a>
+            </div>
+        </div>
+        <!-- ========== 제품 2 끝 ========== -->
+
+        <!-- ========== 제품 3 시작 (필요시 복사) ========== -->
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/300x200?text=Product+3" alt="제품 이미지 3">
+                </div>
+
+                <div class="product-info">
+                    <span class="badge" style="background: #f59e0b;">가성비</span>
+                    <h2 class="product-title">세 번째 제품명을 입력하세요</h2>
+                    <div class="product-price">79 ~ 95만원</div>
+
+                    <div class="product-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">화면</span>
+                            <span class="spec-value">14인치</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">무게</span>
+                            <span class="spec-value">1.4kg</span>
+                        </div>
+                    </div>
+
+                    <div class="buttons-section">
+                        <a href="#" class="btn btn-primary">VS 비교하기</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scores-section">
+                <div class="scores-grid">
+                    <div class="main-score">
+                        <svg width="140" height="140">
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+                            <circle cx="70" cy="70" r="60" fill="none" stroke="#f59e0b" stroke-width="12"
+                                    stroke-dasharray="257 377" stroke-linecap="round"/>
+                        </svg>
+                        <div class="main-score-text">
+                            <span class="main-score-label">종합점수</span>
+                            <span class="main-score-value">68.0</span>
+                        </div>
+                    </div>
+
+                    <div class="sub-scores">
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#10b981" stroke-width="8"
+                                            stroke-dasharray="198 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #10b981;">90.0</div>
+                            </div>
+                            <div class="score-label">가격</div>
+                        </div>
+
+                        <div class="score-item">
+                            <div class="score-circle">
+                                <svg width="80" height="80">
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                    <circle cx="40" cy="40" r="35" fill="none" stroke="#f59e0b" stroke-width="8"
+                                            stroke-dasharray="132 220" stroke-linecap="round"/>
+                                </svg>
+                                <div class="score-value" style="color: #f59e0b;">60.0</div>
+                            </div>
+                            <div class="score-label">성능</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-link">
+                <a href="#">자세히 알아보기 →</a>
+            </div>
+
+            <div class="store-links">
+                <a href="#" class="store-link coupang">
+                    <span class="store-name">🎁 쿠팡</span>
+                    <span class="store-price">790,000원</span>
+                </a>
+            </div>
+        </div>
+        <!-- ========== 제품 3 끝 ========== -->
+
+    </div>
+</body>
+</html>

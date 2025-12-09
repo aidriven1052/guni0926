@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>점수 계산기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .results {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 16px;
+            color: #667eea;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .result-value:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .result-value:active {
+            transform: scale(0.98);
+        }
+
+        .copy-notice {
+            text-align: center;
+            color: #10b981;
+            font-size: 13px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .copy-notice.show {
+            opacity: 1;
+        }
+
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #1976d2;
+            line-height: 1.6;
+        }
+
+        .emoji {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>🎯 점수 계산기</h1>
+        <p class="subtitle">제품 비교 템플릿용 SVG 값 자동 계산</p>
+
+        <div class="input-group">
+            <label for="score"><span class="emoji">📊</span>점수 입력 (0~100)</label>
+            <input type="number" id="score" min="0" max="100" step="0.1" value="75.2" placeholder="75.2">
+        </div>
+
+        <div class="results">
+            <div class="result-item">
+                <div class="result-label">큰 원 (종합점수용) - 클릭하여 복사</div>
+                <div class="result-value" id="bigCircle" onclick="copyToClipboard('bigCircle')">
+                    stroke-dasharray="283 377"
+                </div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">작은 원 (세부 점수용) - 클릭하여 복사</div>
+                <div class="result-value" id="smallCircle" onclick="copyToClipboard('smallCircle')">
+                    stroke-dasharray="165 220"
+                </div>
+            </div>
+        </div>
+
+        <div class="copy-notice" id="copyNotice">✅ 복사되었습니다!</div>
+
+        <div class="info">
+            <strong>💡 사용 방법:</strong><br>
+            1. 점수를 입력하세요<br>
+            2. 계산된 값을 클릭하면 자동으로 복사됩니다<br>
+            3. HTML 파일의 해당 부분에 붙여넣기 하세요
+        </div>
+    </div>
+
+    <script>
+        const scoreInput = document.getElementById('score');
+        const bigCircle = document.getElementById('bigCircle');
+        const smallCircle = document.getElementById('smallCircle');
+        const copyNotice = document.getElementById('copyNotice');
+
+        function calculate() {
+            const score = parseFloat(scoreInput.value) || 0;
+
+            // 큰 원: (점수/100) × 377
+            const bigValue = Math.round((score / 100) * 377);
+
+            // 작은 원: (점수/100) × 220
+            const smallValue = Math.round((score / 100) * 220);
+
+            bigCircle.textContent = `stroke-dasharray="${bigValue} 377"`;
+            smallCircle.textContent = `stroke-dasharray="${smallValue} 220"`;
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent.trim();
+
+            navigator.clipboard.writeText(text).then(() => {
+                copyNotice.classList.add('show');
+                setTimeout(() => {
+                    copyNotice.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        scoreInput.addEventListener('input', calculate);
+
+        // 초기 계산
+        calculate();
+    </script>
+</body>
+</html>
