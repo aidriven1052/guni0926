@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CP Decide - AI & 상품 리뷰 | 특별 할인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 프로필 섹션 */
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .profile-title {
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .profile-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        /* 소셜 미디어 버튼 */
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 25px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .social-btn.tiktok {
+            background: linear-gradient(135deg, #000000 0%, #69C9D0 100%);
+            color: white;
+        }
+
+        .social-btn.youtube {
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+            color: white;
+        }
+
+        .social-btn.instagram {
+            background: linear-gradient(135deg, #833AB4 0%, #FD1D1D 50%, #FCB045 100%);
+            color: white;
+        }
+
+        /* 섹션 타이틀 */
+        .section-title {
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* 상품 그리드 */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        /* 상품 카드 */
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            min-height: 50px;
+            line-height: 1.4;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+        }
+
+        .review-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+        }
+
+        .coupang-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.3);
+        }
+
+        .coupang-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,107,107,0.5);
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 푸터 */
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            padding: 30px 0;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .profile-title {
+                font-size: 1.5em;
+            }
+
+            .section-title {
+                font-size: 1.4em;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .social-buttons {
+                gap: 10px;
+            }
+
+            .social-btn {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+        }
+
+        /* 로딩 상태 */
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 프로필 섹션 -->
+        <div class="profile-section">
+            <!-- 프로필 이미지가 있다면 주석을 풀고 URL을 입력하세요 -->
+            <!-- <img src="프로필이미지URL" alt="프로필" class="profile-image"> -->
+
+            <h1 class="profile-title">🎁 CP Decide</h1>
+            <p class="profile-subtitle">AI & 상품 리뷰 | 특별 할인 정보</p>
+        </div>
+
+        <!-- 소셜 미디어 버튼 -->
+        <div class="social-buttons">
+            <!-- ⬇️⬇️⬇️ 여기에 본인의 소셜 미디어 링크를 입력하세요 ⬇️⬇️⬇️ -->
+            <a href="https://www.tiktok.com/@your_account" class="social-btn tiktok" target="_blank">
+                📱 TikTok 팔로우
+            </a>
+            <a href="https://www.youtube.com/@your_channel" class="social-btn youtube" target="_blank">
+                ▶️ YouTube 구독
+            </a>
+            <a href="https://www.instagram.com/your_account" class="social-btn instagram" target="_blank">
+                📷 Instagram
+            </a>
+            <!-- ⬆️⬆️⬆️ 소셜 미디어 링크 수정 끝 ⬆️⬆️⬆️ -->
+        </div>
+
+        <!-- 섹션 타이틀 -->
+        <h2 class="section-title">🔥 리뷰한 상품 & 특별 할인</h2>
+
+        <!-- 상품 그리드 (자동 생성됨) -->
+        <div id="products-container" class="products-grid">
+            <div class="loading">상품을 불러오는 중...</div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>🛍️ 쿠팡 파트너스 활동을 통해 일정액의 수수료를 제공받을 수 있습니다.</p>
+            <p style="margin-top: 10px;">
+                <a href="https://cpdecide.blog">CP Decide Blog</a> | © 2025 All Rights Reserved
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // ⬇️⬇️⬇️ 여기에 상품 정보를 추가하세요! ⬇️⬇️⬇️
+        // ==========================================
+
+        const products = [
+            {
+                image: "https://via.placeholder.com/400x300/667eea/ffffff?text=Example+Product+1",
+                name: "예시 상품 1 - 에어팟 프로 2세대",
+                discount: "20%",
+                link: "https://coupa.ng/your-affiliate-link-1"
+            },
+            {
+                image: "https://via.placeholder.com/400x300/764ba2/ffffff?text=Example+Product+2",
+                name: "예시 상품 2 - 삼성 갤럭시 버즈",
+                discount: "15%",
+                link: "https://coupa.ng/your-affiliate-link-2"
+            },
+            {
+                image: "https://via.placeholder.com/400x300/f093fb/ffffff?text=Example+Product+3",
+                name: "예시 상품 3 - LG 그램 노트북",
+                discount: "10%",
+                link: "https://coupa.ng/your-affiliate-link-3"
+            },
+            {
+                image: "https://via.placeholder.com/400x300/4facfe/ffffff?text=Example+Product+4",
+                name: "예시 상품 4 - 애플 워치 시리즈 9",
+                discount: "25%",
+                link: "https://coupa.ng/your-affiliate-link-4"
+            },
+            {
+                image: "https://via.placeholder.com/400x300/00f2fe/ffffff?text=Example+Product+5",
+                name: "예시 상품 5 - 다이슨 무선 청소기",
+                discount: "30%",
+                link: "https://coupa.ng/your-affiliate-link-5"
+            },
+            {
+                image: "https://via.placeholder.com/400x300/43e97b/ffffff?text=Example+Product+6",
+                name: "예시 상품 6 - 코멧 가습기",
+                discount: "40%",
+                link: "https://coupa.ng/your-affiliate-link-6"
+            },
+
+            // ✨ 새 상품 추가 방법:
+            // 아래 형식으로 계속 추가하시면 됩니다!
+            // {
+            //     image: "쿠팡 상품 이미지 URL",
+            //     name: "상품명",
+            //     discount: "할인율 (예: 20%)",
+            //     link: "쿠팡 제휴 링크"
+            // },
+        ];
+
+        // ==========================================
+        // ⬆️⬆️⬆️ 상품 정보 추가 끝 ⬆️⬆️⬆️
+        // ==========================================
+
+        // 상품 카드 자동 생성 (이 코드는 수정하지 마세요!)
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+
+            if (products.length === 0) {
+                container.innerHTML = '<div class="loading">등록된 상품이 없습니다.</div>';
+                return;
+            }
+
+            container.innerHTML = products.map((product, index) => `
+                <div class="product-card" style="animation-delay: ${index * 0.1}s">
+                    ${product.discount ? `<div class="discount-badge">${product.discount} 할인</div>` : ''}
+                    <img src="${product.image}" alt="${product.name}" class="product-image"
+                         onerror="this.src='https://via.placeholder.com/400x300/cccccc/666666?text=No+Image'">
+                    <div class="product-content">
+                        <div class="review-badge">✅ 리뷰 완료</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <a href="${product.link}" class="coupang-btn" target="_blank" rel="noopener noreferrer">
+                            🛒 쿠팡에서 보기
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 페이지 로드 시 상품 렌더링
+        document.addEventListener('DOMContentLoaded', renderProducts);
+    </script>
+</body>
+</html>
